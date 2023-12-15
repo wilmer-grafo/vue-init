@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPA</title>
+</head>
+<body>
+<div id="container">
+    Contador es: 0
+    <button id="increment">Incrementar</button>
+    <button id="decrement">Reducir</button>
+</div>
+<script>
+    // js reactivity
+    let count = 0;
+    const incrementBtn = document.getElementById("increment");
+    const decrementBtn = document.getElementById("decrement");
+    const containerDiv = document.getElementById("container");
+    const url = "https://jsonplaceholder.typicode.com/users";
+
+    incrementBtn.onclick = () => {
+        count++;
+        containerDiv.childNodes[0].textContent = `Contador es: ${count}`;
+    };
+
+    decrementBtn.onclick = () => {
+        count--;
+        containerDiv.childNodes[0].textContent = `Contador es: ${count}`;
+    };
+</script>
+</body>
+</html>

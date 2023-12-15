@@ -1,0 +1,36 @@
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<div id="app">
+
+</div>
+
+<script>
+    const {createApp, h} = Vue;
+
+    const Contador = {
+        data() {
+            return {
+                contador: 0
+            }
+        },
+        methods: {
+            increment() {
+                this.contador++;
+            },
+            decrement() {
+                this.contador--;
+            }
+        },
+        // renderizado con nodos virtuales
+        render(component) {
+            return h('div', {style: {color: "blue"}}, [
+                `El contador es: ${component.contador} `,
+                h('button', {onclick: () => component.increment()}, ['Incrementar']),
+                h('button', {onclick: () => this.decrement()}, ['Reducir']) // solo funciona en funciones flecha, hereda el this del padre
+            ]);
+        }
+    };
+
+    const app = createApp(Contador).mount('#app');
+
+</script>

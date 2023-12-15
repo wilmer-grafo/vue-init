@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPA</title>
+</head>
+<body>
+<button>Get Players</button>
+<div id="players"></div>
+<script>
+    // js network request
+    const button = document.querySelector("body > button");
+    const playersDiv = document.getElementById("players");
+    const state = {
+        players: ["Manolo", "Pepe"]
+    };
+
+    button.onclick = () => {
+        while (playersDiv.firstChild) {
+            playersDiv.removeChild(playersDiv.firstChild);
+        }
+
+        state.players.forEach(p => {
+            const div = document.createElement("div");
+            const text = document.createTextNode(p);
+
+            div.appendChild(text);
+            playersDiv.appendChild(div);
+        });
+    }
+</script>
+</body>
+</html>
