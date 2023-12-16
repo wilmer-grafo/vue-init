@@ -1,5 +1,6 @@
 <script setup>
 import {ref} from "vue";
+import Alert from "../components/Alert.vue";
 
 let todoTitle = ref("");
 let arr = ref([]);
@@ -47,14 +48,15 @@ const removeTodo = (p_title) => {
 
 <template>
   <main class="container">
-    <div v-if="showAlert" class="alert">
-      <div>El titulo es necesario</div>
-      <div @click="showAlert = false" class="close-alert">&times;</div>
-    </div>
+    <!--POR DEFCTO danger en tipo="warning"-->
+    <Alert :show="showAlert"
+           v-bind:message="'El titulo es necesario'"
+           @cerrar="showAlert = false"
+    />
     <section>
       <form class="add-form">
         <!--        <input v-on:input="updateTitle" type="text" placeholder="Escribe una lista por hacer">-->
-        <input v-model="todoTitle" type="text" placeholder="Escribe una lista por hacer">
+        <input v-model="todoTitle" type="text" placeholder="Escribe una lista por hacer" id="todo_title">
         <div>
           <button @click.prevent="addTodo">Agregar</button>
         </div>
@@ -72,22 +74,6 @@ const removeTodo = (p_title) => {
 </template>
 
 <style scoped>
-.alert {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--danger-color);
-  margin-bottom: 20px;
-  padding: 0 20px 0 20px;
-  border-radius: 10px;
-  height: 50px;
-}
-
-.close-alert {
-  font-size: 50px;
-  cursor: pointer;
-}
-
 .add-form {
   display: flex;
   justify-content: space-between;
