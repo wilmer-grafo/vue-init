@@ -10,44 +10,42 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Alert",
-  // props: ['show', 'message'],
-  props: {
-    message: {
-      required: true,
-      type: String
-    },
-    show: {
-      required: true,
-      type: Boolean
-    },
-    tipo: {
-      required: false,
-      default: "danger",
-      validator(value) {
-        return ["danger", "warning", "info"].includes(value);
-      }
-    }
+<script setup>
+import {computed} from "vue";
+
+const props = defineProps({
+  message: {
+    required: true,
+    type: String
   },
-  computed: {
-    setNewBackground() {
-      const options = {
-        danger: "var(--danger-color)",
-        info: "var(--info-color)",
-        warning: "var(--warning-color)"
-      };
-      return options[this.tipo]
-    }
+  show: {
+    required: true,
+    type: Boolean
   },
-  emits: ['cerrar'],
-  methods: {
-    closeAlert() {
-      this.$emit('cerrar');
+  tipo: {
+    required: false,
+    default: "danger",
+    validator(value) {
+      return ["danger", "warning", "info"].includes(value);
     }
   }
+});
+
+const emit = defineEmits(['cerrar']);
+
+const setNewBackground = computed(() => {
+  const options = {
+    danger: "var(--danger-color)",
+    info: "var(--info-color)",
+    warning: "var(--warning-color)"
+  };
+  return options[props.tipo];
+});
+
+function closeAlert() {
+  emit('cerrar');
 }
+
 </script>
 
 <style scoped>

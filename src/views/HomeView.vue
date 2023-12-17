@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted} from "vue";
+import {ref, reactive} from "vue";
 
 import Alert from "../components/Alert.vue";
 import AddTodoForm from "../components/AddTodoForm.vue";
@@ -18,12 +18,12 @@ import axios from "axios";
 let arr = ref([]);
 let isLoading = ref(false);
 let isPostingTodo = ref(false);
-let alert = ref({
+let alert = reactive({
   show: false,
   message: "",
   tipo: "danger"
 });
-let editTodoForm = ref({
+let editTodoForm = reactive({
   show: false,
   todo: {
     id: 0,
@@ -32,9 +32,9 @@ let editTodoForm = ref({
 });
 
 const showAlert = (message, type = "danger") => {
-  alert.value.show = true;
-  alert.value.message = message;
-  alert.value.tipo = type;
+  alert.show = true;
+  alert.message = message;
+  alert.tipo = type;
 };
 
 const addTodo = async (title) => {
@@ -60,20 +60,20 @@ const removeTodo = async (id) => {
 };
 
 const showEditTodoForm = (todo) => {
-  editTodoForm.value.show = true;
-  editTodoForm.value.todo = {...todo}; // copiar
+  editTodoForm.show = true;
+  editTodoForm.todo = {...todo}; // copiar
 };
 
 const updateTodo = async () => {
   try {
-    const {id, title} = editTodoForm.value.todo;
+    const {id, title} = editTodoForm.todo;
     await axios.put(`/api/todos/${id}`, {title});
-    const todo = arr.value.find(p_todo => p_todo.id === editTodoForm.value.todo.id);
-    todo.title = editTodoForm.value.todo.title;
+    const todo = arr.value.find(p_todo => p_todo.id === editTodoForm.todo.id);
+    todo.title = editTodoForm.todo.title;
   } catch (e) {
     showAlert("Fallo la actualizacion disculpe las molestias");
   }
-  editTodoForm.value.show = false;
+  editTodoForm.show = false;
 };
 
 const fetchAllTodosAxios = async () => {
