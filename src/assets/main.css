@@ -9,6 +9,7 @@
   --danger-color: #E06C75;
   --info-color: #61AFEF;
   --warning-color: #E5C07B;
+  --secondary-color: gray;
 }
 
 html {
@@ -20,8 +21,4 @@ html {
 .container {
   width: 80%;
   margin: auto;
-}
-
-button {
-  cursor: pointer;
 }
