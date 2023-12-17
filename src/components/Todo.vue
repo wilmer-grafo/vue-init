@@ -3,11 +3,12 @@
     <p>{{ title }}</p>
     <div>
       <!--      <button @click="$emit('remove')" class="remove-todo">&times;</button>-->
-      <ButtonVue circle tipo="secondary" class="btn edit-btn" @clic="$emit('editar')">
+      <ButtonVue circle tipo="secondary" class="btn edit-btn" @click.prevent="$emit('editar')">
         <Pencil/>
       </ButtonVue>
 
-      <ButtonVue circle tipo="danger" @clic="$emit('remove')" class="btn">&times;</ButtonVue>
+<!--      <ButtonVue circle tipo="danger" @clic="$emit('remove')" class="btn">&times;</ButtonVue>-->
+      <ButtonVue circle tipo="danger" @click="$emit('remove')" class="btn">&times;</ButtonVue>
     </div>
   </div>
 </template>

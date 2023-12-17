@@ -3,9 +3,15 @@
     <input v-model="todoTitle" type="text" placeholder="Escribe una lista por hacer" id="todo_title">
     <div>
       <!--      <button @click.prevent="$emit('adicionar', todoTitle)">Agregar</button>-->
-<!--      <button @click.prevent="agregar">Agregar</button>-->
-      <ButtonVue class="btn" @clic="agregar">
-        Agregar
+      <!--      <button @click.prevent="agregar">Agregar</button>-->
+      <!--      <ButtonVue class="btn" @clic="agregar">-->
+      <!--        Agregar-->
+      <!--      </ButtonVue>-->
+      <ButtonVue
+          :disabled="isDisabled"
+          class="btn" @click.prevent="agregar" type="submit">
+        <Spinner v-if="isDisabled" />
+        <span v-else>Agregar</span>
       </ButtonVue>
     </div>
   </form>
@@ -13,15 +19,22 @@
 
 <script>
 import ButtonVue from "./ButtonVue.vue";
+import Spinner from "./Spinner.vue";
 
 export default {
-  components: {ButtonVue},
+  components: {ButtonVue, Spinner},
   data() {
     return {
       todoTitle: ""
     }
   },
   emits: ['adicionar'],
+  props: {
+    isDisabled: {
+      default: false,
+      type: Boolean
+    }
+  },
   methods: {
     agregar() {
       this.$emit('adicionar', this.todoTitle);

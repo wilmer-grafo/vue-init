@@ -1,5 +1,11 @@
 <template>
-  <button :style="{backgroundColor}" @click.prevent="$emit('clic')" :class="{ circle: applyCircleClass}">
+  <!--  @click.prevent="$emit('clic')"-->
+  <button
+      class="btn"
+      :style="{backgroundColor}"
+      :class="{ circle: applyCircleClass}"
+      v-bind="$attrs"
+  >
     <!--poner cosas dentro de un cmp con slots-->
     <slot></slot>
   </button>
@@ -7,8 +13,9 @@
 
 <script>
 export default {
-  emits: ['clic'],
+  // emits: ['clic'],
   props: {
+    // type:variant
     tipo: {
       required: false,
       default: "success",
@@ -41,13 +48,17 @@ export default {
 </script>
 
 <style scoped>
-button {
+.btn {
   color: var(--text-color);
   border: none;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.btn:disabled {
+  opacity: 80%;
 }
 
 .circle {
