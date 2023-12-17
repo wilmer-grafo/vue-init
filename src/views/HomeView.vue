@@ -11,12 +11,11 @@ import Spinner from "../components/Spinner.vue";
 
 import EditTodoForm from "../components/EditTodoForm.vue";
 
-import api from "../api.js";
+// import api from "../api.js";
 
 import axios from "axios";
 
 let arr = ref([]);
-// let showAlert = ref(false);
 let isLoading = ref(false);
 let isPostingTodo = ref(false);
 let alert = ref({
@@ -24,7 +23,6 @@ let alert = ref({
   message: "",
   tipo: "danger"
 });
-let showEditModal = ref(false);
 let editTodoForm = ref({
   show: false,
   todo: {
@@ -41,38 +39,24 @@ const showAlert = (message, type = "danger") => {
 
 const addTodo = async (title) => {
   if (title === "") {
-    // showAlert.value = true;
-    // alert.value.show = true;
     showAlert("El titulo es necesario");
     return;
   }
+
   isPostingTodo.value = true;
+
   const res = await axios.post('http://localhost:8090/todos', {
     title
   });
+
   isPostingTodo.value = false;
 
-  // ojo actualizar despues de que tenga exito, porque puede fallar
   arr.value.push(res.data);
-
-  // o directamente
-  // fetchAllTodosAxios();
-
-  // arr.value.push({
-  //   id: Math.floor(Math.random() * 1000),
-  //   title
-  // });
 };
-
-// const removeTodo = (p_id) => {
-//   arr.value = arr.value.filter(p_todo => p_todo.id !== p_id);
-// };
 
 const removeTodo = async (id) => {
   await axios.delete(`http://localhost:8090/todos/${id}`);
   arr.value = arr.value.filter(p_todo => p_todo.id !== id);
-  // o directamente
-  // fetchAllTodosAxios();
 };
 
 const showEditTodoForm = (todo) => {
@@ -80,16 +64,10 @@ const showEditTodoForm = (todo) => {
   editTodoForm.value.todo = {...todo}; // copiar
 };
 
-// const updateTodo = () => {
-//   const todo = arr.value.find(p_todo => p_todo.id === editTodoForm.value.todo.id);
-//   todo.title = editTodoForm.value.todo.title;
-//   editTodoForm.value.show = false;
-// };
-
 const updateTodo = async () => {
   try {
-    const { id, title } = editTodoForm.value.todo;
-    await axios.put(`/api/todos/${id}`, { title });
+    const {id, title} = editTodoForm.value.todo;
+    await axios.put(`/api/todos/${id}`, {title});
     const todo = arr.value.find(p_todo => p_todo.id === editTodoForm.value.todo.id);
     todo.title = editTodoForm.value.todo.title;
   } catch (e) {
@@ -98,16 +76,9 @@ const updateTodo = async () => {
   editTodoForm.value.show = false;
 };
 
-const fetchAllTodos = async () => {
-  const res = await fetch('http://localhost:8090/todos');
-  arr.value = await res.json();
-  // console.log(arr.value);
-};
-
 const fetchAllTodosAxios = async () => {
   isLoading.value = true;
   try {
-    // const res = await axios.get('http://localhost:8090/todos');
     const res = await axios.get('/api/todos');
     arr.value = res.data;
   } catch (e) {
@@ -118,12 +89,8 @@ const fetchAllTodosAxios = async () => {
   isLoading.value = false;
 };
 
-onMounted(() => {
-  // console.log(`${api}/todos`);
-  // console.log(import.meta.env.VITE_API_URL);
-  // fetchAllTodos();
-  fetchAllTodosAxios();
-});
+fetchAllTodosAxios();
+
 </script>
 
 <template>
@@ -134,7 +101,6 @@ onMounted(() => {
         @submit="updateTodo"
         v-model="editTodoForm.todo.title"
     />
-    <!--    v-bind:message="'El titulo es necesario'"-->
     <Alert :show="alert.show"
            v-bind:message="alert.message"
            :tipo="alert.tipo"
@@ -159,8 +125,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
-
 .cargando {
   margin: 30px auto auto;
 }

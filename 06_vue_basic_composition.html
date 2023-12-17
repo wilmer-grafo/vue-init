@@ -1,0 +1,60 @@
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+<div id="app">
+
+</div>
+
+<script>
+    const {createApp, reactive, ref} = Vue;
+    // data.count
+    const Contador = {
+        template: `
+          <div id="container">
+          Contador es: {{ count }}
+          <button v-on:click="increment">Incrementar</button>
+          <button v-on:click="decrement">Reducir</button>
+          </div>
+        `,
+        setup() {
+            const data = reactive({
+                count: 5
+            });
+
+            const count = ref(5);
+
+            const increment = () => {
+                // data.count++;
+                count.value++;
+            }
+
+            function decrement() {
+                // data.count--;
+                count.value--;
+            }
+
+            return{
+                // data,
+                count,
+                increment,
+                decrement
+            }
+        }
+    };
+
+    const App = {
+        template: `
+          <header>NavBar</header>
+          <main>
+          <Counter/>
+          </main>
+          <footer>Footer</footer>
+        `
+    };
+
+    // createApp(Contador).mount('#app');
+    const app = createApp(App);
+    // registrar el cmp
+    app.component('Counter', Contador);
+    // montar
+    app.mount('#app');
+</script>
