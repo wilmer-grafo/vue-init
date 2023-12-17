@@ -9,6 +9,8 @@ import Modal from "../components/Modal.vue";
 import ButtonVue from "../components/ButtonVue.vue";
 import Spinner from "../components/Spinner.vue";
 
+import EditTodoForm from "../components/EditTodoForm.vue";
+
 import api from "../api.js";
 
 import axios from "axios";
@@ -126,28 +128,12 @@ onMounted(() => {
 
 <template>
   <main class="container">
-    <!--    :show="showEditModal";  para que no aparesca el target usar v-if en lugar de :show-->
-    <Modal :show="editTodoForm.show" @cerrar-modal="editTodoForm.show = false">
-      <template v-slot:header>
-        <h2>Editar un todo</h2>
-      </template>
-      <template v-slot:content>
-        <form class="edit_todo_form">
-          <div>
-            <label for="titulo">Nombre título</label>
-          </div>
-          <input type="text" id="titulo" v-model="editTodoForm.todo.title">
-        </form>
-      </template>
-      <template #footer>
-        <div class="edit-modal-footer">
-          <!--          <ButtonVue class="edit-todo-submit-btn" @clic="updateTodo">Editar</ButtonVue>-->
-          <!--          <ButtonVue tipo="danger" @clic="editTodoForm.show = false">Cerrar</ButtonVue>-->
-          <ButtonVue class="edit-todo-submit-btn" @click.prevent="updateTodo">Editar</ButtonVue>
-          <ButtonVue tipo="danger" @click="editTodoForm.show = false">Cerrar</ButtonVue>
-        </div>
-      </template>
-    </Modal>
+    <EditTodoForm
+        :show="editTodoForm.show"
+        @close="editTodoForm.show = false"
+        @submit="updateTodo"
+        v-model="editTodoForm.todo.title"
+    />
     <!--    v-bind:message="'El titulo es necesario'"-->
     <Alert :show="alert.show"
            v-bind:message="alert.message"
@@ -173,21 +159,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.edit_todo_form > input {
-  height: 30px;
-  width: 100%;
-  border: 1px solid var(--accent-color);
-}
 
-.edit-modal-footer {
-  display: flex;
-  justify-content: end;
-  padding: 10px;
-}
-
-.edit-todo-submit-btn {
-  margin-right: 5px;
-}
 
 .cargando {
   margin: 30px auto auto;
