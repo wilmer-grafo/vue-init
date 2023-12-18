@@ -11,9 +11,11 @@
 </template>
 
 <script setup>
-import {computed} from "vue";
+
+import {useBackgroundColor, backgroundColorProps} from "../composables/backgroundColor.js";
 
 const props = defineProps({
+  ...backgroundColorProps,
   message: {
     required: true,
     type: String
@@ -22,25 +24,11 @@ const props = defineProps({
     required: true,
     type: Boolean
   },
-  tipo: {
-    required: false,
-    default: "danger",
-    validator(value) {
-      return ["danger", "warning", "info"].includes(value);
-    }
-  }
 });
 
 const emit = defineEmits(['cerrar']);
 
-const setNewBackground = computed(() => {
-  const options = {
-    danger: "var(--danger-color)",
-    info: "var(--info-color)",
-    warning: "var(--warning-color)"
-  };
-  return options[props.tipo];
-});
+const setNewBackground = useBackgroundColor(props);
 
 function closeAlert() {
   emit('cerrar');
@@ -49,11 +37,11 @@ function closeAlert() {
 </script>
 
 <style scoped>
+
 .alert {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /*background: var(--danger-color);*/
   margin-bottom: 20px;
   padding: 0 20px 0 20px;
   border-radius: 10px;

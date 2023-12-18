@@ -11,38 +11,24 @@
 
 <script setup>
 import {computed} from "vue";
+import {useBackgroundColor, backgroundColorProps} from "../composables/backgroundColor.js";
 
 const props = defineProps({
-  tipo: {
-    required: false,
-    default: "success",
-    validator(value) {
-      const options = ["danger", "warning", "info", "success", "secondary"];
-      return options.includes(value);
-    }
-  },
   circle: {
     default: false,
     type: Boolean
-  }
+  },
+  ...backgroundColorProps,
 });
 
 const applyCircleClass = computed(() => props.circle);
 
-const backgroundColor = computed(() => {
-  const options = {
-    danger: "var(--danger-color)",
-    info: "var(--info-color)",
-    warning: "var(--warning-color)",
-    success: "var(--accent-color)",
-    secondary: "var(--secondary-color)"
-  };
-  return options[props.tipo];
-});
+const backgroundColor = useBackgroundColor(props);
 
 </script>
 
 <style scoped>
+
 .btn {
   color: var(--text-color);
   border: none;
@@ -59,4 +45,5 @@ const backgroundColor = computed(() => {
 .circle {
   border-radius: 50%;
 }
+
 </style>

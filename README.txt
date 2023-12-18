@@ -22,3 +22,8 @@ export default {
     };
   }
 }
+
+
+con los composables para re utilizar codigo
+
+no se puede des estrocturar las propiedades
