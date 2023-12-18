@@ -1,11 +1,9 @@
-<!--:style="{ backgroundColor: tipo === 'danger' ? 'var(&#45;&#45;danger-color)': 'var(&#45;&#45;info-color)'}"-->
 <template>
   <div v-if="show"
        class="alert"
        :style="{ backgroundColor: setNewBackground}"
   >
     <div>{{ message }}</div>
-    <!--<div @click="show = false" class="close-alert">&times;</div>-->
     <div @click="closeAlert" class="close-alert">&times;</div>
   </div>
 </template>

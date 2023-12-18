@@ -27,3 +27,5 @@ export default {
 con los composables para re utilizar codigo
 
 no se puede des estrocturar las propiedades
+
+los composables se nombran por convecion use

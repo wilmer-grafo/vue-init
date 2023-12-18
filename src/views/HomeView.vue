@@ -1,5 +1,5 @@
 <script setup>
-import {ref, reactive} from "vue";
+import {ref, reactive, watch} from "vue";
 
 import Alert from "../components/Alert.vue";
 import AddTodoForm from "../components/AddTodoForm.vue";
@@ -14,9 +14,10 @@ import EditTodoForm from "../components/EditTodoForm.vue";
 // import api from "../api.js";
 
 import axios from "axios";
+import {useFetch} from "../composables/fetch.js";
 
-let arr = ref([]);
-let isLoading = ref(false);
+// let arr = ref([]);
+// let isLoading = ref(false);
 let isPostingTodo = ref(false);
 let alert = reactive({
   show: false,
@@ -30,6 +31,13 @@ let editTodoForm = reactive({
     title: ""
   }
 });
+
+// data: arr renombrar de data por arr
+const {data: arr, isLoading} = useFetch("/api/todos", {
+  onError: (() => showAlert("Ha habido un error al cargar los todos"))
+});
+
+// watch(error, (e) => showAlert("Ha habido un error al cargar los todos"));
 
 const showAlert = (message, type = "danger") => {
   alert.show = true;
@@ -89,7 +97,7 @@ const fetchAllTodosAxios = async () => {
   isLoading.value = false;
 };
 
-fetchAllTodosAxios();
+// fetchAllTodosAxios();
 
 </script>
 
