@@ -2,13 +2,8 @@
   <div class="spinner"></div>
 </template>
 
-<script>
-export default {
-  name: "Spinner"
-}
-</script>
-
 <style scoped>
+
 .spinner {
   border: 4px solid rgba(255, 255, 255, 0.35);
   width: 36px;
@@ -27,4 +22,5 @@ export default {
     transform: rotate(360deg);
   }
 }
+
 </style>

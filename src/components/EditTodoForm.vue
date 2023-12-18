@@ -24,18 +24,15 @@
   </Modal>
 </template>
 
-<script>
+<script setup>
+
 import Modal from "./Modal.vue";
 import ButtonVue from "./ButtonVue.vue";
-export default {
-  name: "EditTodoForm",
-  components: {
-    Modal,
-    ButtonVue
-  },
-  props: ['modelValue', 'show'],
-  emits: ['close', 'submit', 'update:modelValue']
-}
+
+defineProps(["modelValue", "show"]);
+
+defineEmits(["close", "submit", "update:modelValue"]);
+
 </script>
 
 <style scoped>

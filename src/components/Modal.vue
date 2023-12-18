@@ -1,5 +1,4 @@
 <template>
-  <!--  si se usa v-if quitar v-show="show" -->
   <div ref="modal" v-show="show" class="modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -17,45 +16,46 @@
   </div>
 </template>
 
-<script>
-// donde esta el clic; pero se tiene que eliminar o quitar los eventos
-// window.addEventListener('click', (e) => console.log(e.target));
-export default {
-  name: "Modal",
-  props: {
-    show: {
-      default: false
-    }
-  },
-  data() {
-    return {
-      clickListenerMethod: (e) => {
-        // console.log(e.target);
-        if (e.target === this.$refs.modal) {
-          this.$emit('cerrar-modal');
-        }
-      },
-      closeOnEscapeListenerMethod: (e) => {
-        if (e.key === "Escape") {
-          this.$emit('cerrar-modal');
-        }
-      }
-    }
-  },
-  emits: ['cerrar-modal'],
-  mounted() {
-    // para cerrar el modal desde fuera del modal
-    window.addEventListener('click', this.clickListenerMethod); // enviar la referencia del metodo no ejecutar ()
-    window.addEventListener('keydown', this.closeOnEscapeListenerMethod);
-  },
-  beforeUnmount() {
-    window.removeEventListener('click', this.clickListenerMethod);
-    window.removeEventListener('keydown', this.closeOnEscapeListenerMethod);
+<script setup>
+
+import {onBeforeUnmount, onMounted, ref} from "vue";
+
+defineProps({
+  show: {
+    default: false
+  }
+});
+
+const modal = ref(null);
+
+const emit = defineEmits(["cerrar-modal"]);
+
+const clickListenerMethod = (e) => {
+  if (e.target === modal.value) {
+    emit('cerrar-modal');
   }
 }
+
+const closeOnEscapeListenerMethod = (e) => {
+  if (e.key === "Escape") {
+    emit('cerrar-modal');
+  }
+}
+
+onMounted(() => {
+  window.addEventListener("click", clickListenerMethod);
+  window.addEventListener("keydown", closeOnEscapeListenerMethod);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("click", clickListenerMethod);
+  window.removeEventListener("keydown", closeOnEscapeListenerMethod);
+});
+
 </script>
 
 <style scoped>
+
 .modal {
   position: fixed;
   z-index: 1;
@@ -119,4 +119,5 @@ export default {
   background-color: rgb(83, 83, 93);
   color: white;
 }
+
 </style>

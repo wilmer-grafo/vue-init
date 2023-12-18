@@ -2,46 +2,40 @@
   <form class="add-form">
     <input v-model="todoTitle" type="text" placeholder="Escribe una lista por hacer" id="todo_title">
     <div>
-      <!--      <button @click.prevent="$emit('adicionar', todoTitle)">Agregar</button>-->
-      <!--      <button @click.prevent="agregar">Agregar</button>-->
-      <!--      <ButtonVue class="btn" @clic="agregar">-->
-      <!--        Agregar-->
-      <!--      </ButtonVue>-->
       <ButtonVue
           :disabled="isDisabled"
-          class="btn" @click.prevent="agregar" type="submit">
+          class="btn"
+          @click.prevent="agregar"
+          type="submit">
         <Spinner v-if="isDisabled" />
-        <span v-else>Agregar</span>
+        <span v-else>Agregar Item</span>
       </ButtonVue>
     </div>
   </form>
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
+
 import ButtonVue from "./ButtonVue.vue";
 import Spinner from "./Spinner.vue";
 
-export default {
-  components: {ButtonVue, Spinner},
-  data() {
-    return {
-      todoTitle: ""
-    }
-  },
-  emits: ['adicionar'],
-  props: {
-    isDisabled: {
-      default: false,
-      type: Boolean
-    }
-  },
-  methods: {
-    agregar() {
-      this.$emit('adicionar', this.todoTitle);
-      this.todoTitle = "";
-    }
+const todoTitle = ref("");
+
+defineProps({
+  isDisabled: {
+    default: false,
+    type: Boolean
   }
+});
+
+const emit = defineEmits(["adicionar"]);
+
+function agregar() {
+  emit('adicionar', todoTitle.value);
+  todoTitle.value = "";
 }
+
 </script>
 
 <style scoped>

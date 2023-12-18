@@ -5,12 +5,8 @@
   </nav>
 </template>
 
-<script>
-export default {
-}
-</script>
-
 <style scoped>
+
 .nav-bar {
   display: flex;
   align-items: center;
@@ -22,4 +18,5 @@ export default {
 .brand {
   font-size: 2rem;
 }
+
 </style>

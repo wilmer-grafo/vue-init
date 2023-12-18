@@ -2,34 +2,33 @@
   <div class="todo">
     <p>{{ title }}</p>
     <div>
-      <!--      <button @click="$emit('remove')" class="remove-todo">&times;</button>-->
       <ButtonVue circle tipo="secondary" class="btn edit-btn" @click.prevent="$emit('editar')">
         <Pencil/>
       </ButtonVue>
 
-<!--      <ButtonVue circle tipo="danger" @clic="$emit('remove')" class="btn">&times;</ButtonVue>-->
       <ButtonVue circle tipo="danger" @click="$emit('remove')" class="btn">&times;</ButtonVue>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
+
 import ButtonVue from "./ButtonVue.vue";
 import Pencil from "./icons/Pencil.vue";
 
-export default {
-  components: {ButtonVue, Pencil},
-  props: {
-    title: {
-      required: true,
-      type: String,
-    },
+defineProps({
+  title: {
+    required: true,
+    type: String,
   },
-  emits: ['remove', 'editar']
-}
+});
+
+defineEmits(["remove", "editar"]);
+
 </script>
 
 <style scoped>
+
 .todo {
   display: flex;
   justify-content: space-between;
