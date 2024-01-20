@@ -1,41 +1,38 @@
 <template>
-  <div v-if="show"
-       class="alert"
-       :style="{ backgroundColor: setNewBackground}"
-  >
+  <div v-if="show" class="alert" :style="{ backgroundColor }">
     <div>{{ message }}</div>
-    <div @click="closeAlert" class="close-alert">&times;</div>
+    <div @click="close" class="close-alert">&times;</div>
   </div>
 </template>
 
 <script setup>
-
-import {useBackgroundColor, backgroundColorProps} from "../composables/backgroundColor.js";
+import {
+  backgroundColorProps,
+  useBackgroundColor,
+} from "../composables/backgroundColor.js";
 
 const props = defineProps({
   ...backgroundColorProps,
   message: {
     required: true,
-    type: String
+    type: String,
   },
   show: {
     required: true,
-    type: Boolean
+    type: Boolean,
   },
 });
 
-const emit = defineEmits(['cerrar']);
+const emit = defineEmits(["close"]);
 
-const setNewBackground = useBackgroundColor(props);
+const backgroundColor = useBackgroundColor(props);
 
-function closeAlert() {
-  emit('cerrar');
+function close() {
+  emit("close");
 }
-
 </script>
 
 <style scoped>
-
 .alert {
   display: flex;
   justify-content: space-between;
@@ -50,5 +47,4 @@ function closeAlert() {
   font-size: 50px;
   cursor: pointer;
 }
-
 </style>

@@ -17,45 +17,43 @@
 </template>
 
 <script setup>
-
 import {onBeforeUnmount, onMounted, ref} from "vue";
 
 defineProps({
   show: {
-    default: false
-  }
+    default: false,
+  },
 });
 
 const modal = ref(null);
 
-const emit = defineEmits(["cerrar-modal"]);
+const emit = defineEmits(["close"]);
 
-const clickListenerMethod = (e) => {
+const clickListener = (e) => {
   if (e.target === modal.value) {
-    emit('cerrar-modal');
+    emit("close");
   }
-}
+};
 
-const closeOnEscapeListenerMethod = (e) => {
+const closeOnEscapeListener = (e) => {
   if (e.key === "Escape") {
-    emit('cerrar-modal');
+    emit("close");
   }
-}
+};
 
 onMounted(() => {
-  window.addEventListener("click", clickListenerMethod);
-  window.addEventListener("keydown", closeOnEscapeListenerMethod);
+  window.addEventListener("click", clickListener);
+  window.addEventListener("keydown", closeOnEscapeListener);
 });
 
 onBeforeUnmount(() => {
-  window.removeEventListener("click", clickListenerMethod);
-  window.removeEventListener("keydown", closeOnEscapeListenerMethod);
+  window.removeEventListener("click", clickListener);
+  window.removeEventListener("keydown", closeOnEscapeListener);
 });
-
 </script>
 
 <style scoped>
-
+/* The Modal (background) */
 .modal {
   position: fixed;
   z-index: 1;
@@ -68,6 +66,7 @@ onBeforeUnmount(() => {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+/* Modal Content */
 .modal-content {
   position: relative;
   background-color: #fefefe;
@@ -81,6 +80,7 @@ onBeforeUnmount(() => {
   animation-duration: 0.4s;
 }
 
+/* Add Animation */
 @-webkit-keyframes animatetop {
   from {
     top: -300px;
@@ -119,5 +119,4 @@ onBeforeUnmount(() => {
   background-color: rgb(83, 83, 93);
   color: white;
 }
-
 </style>

@@ -2,7 +2,8 @@ import {ref, watch} from "vue";
 import axios from "axios";
 
 function useFetch(url, options = {onError: null}) {
-    // reactivos
+
+    // declara estados reactivos
     const data = ref(null);
     const error = ref(null);
     const isLoading = ref(true);
@@ -10,11 +11,9 @@ function useFetch(url, options = {onError: null}) {
     let stopErrorWatcher = null;
 
     if (options.onError !== null) {
-        // declarar un watch
         stopErrorWatcher = watch(error, (e) => options.onError(e));
     }
 
-    // usando promesas
     axios
         .get(url)
         .then((res) => (data.value = res.data))
@@ -22,7 +21,6 @@ function useFetch(url, options = {onError: null}) {
         .finally(() => {
             isLoading.value = false;
             if (stopErrorWatcher !== null) {
-                // parar el watcher
                 stopErrorWatcher();
             }
         });
@@ -32,6 +30,7 @@ function useFetch(url, options = {onError: null}) {
         error,
         isLoading,
     };
+
 }
 
 export {useFetch};

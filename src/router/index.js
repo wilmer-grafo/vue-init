@@ -19,6 +19,10 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
+      path: "/todos/create",
+      component: () => import('../views/AddTodoView.vue')
+    },
+    {
       path: "/todos/:id/edit",
       component: () => import('../views/EditTodoView.vue'),
       props: true,

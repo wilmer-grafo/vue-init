@@ -1,29 +1,48 @@
 <template>
-  <div class="todo">
-    <p>{{ title }}</p>
-    <div>
-      <ButtonVue circle tipo="secondary" class="btn edit-btn" @click.prevent="$emit('editar')">
-        <Pencil/>
-      </ButtonVue>
 
-      <ButtonVue circle tipo="danger" @click="$emit('remove')" class="btn">&times;</ButtonVue>
+  <div class="todo">
+
+    <p>{{ todo.title }}</p>
+    <p>{{ todo.description }}</p>
+    <p>{{ todo.date }}</p>
+
+    <div>
+
+      <!-- editar -->
+      <Btn
+          circle
+          variant="secondary"
+          @click="$emit('edit')"
+          class="btn edit-todo-btn"
+      >
+        <!-- icono -->
+        <Pencil size="20px"/>
+
+      </Btn>
+
+      <!-- remover -->
+      <Btn circle variant="danger" @click="$emit('remove')" class="btn">
+        &times;
+      </Btn>
+
     </div>
   </div>
 </template>
 
 <script setup>
 
-import ButtonVue from "./Button.vue";
+import Btn from "./Btn.vue";
 import Pencil from "./icons/Pencil.vue";
 
+// define una propiedad
 defineProps({
-  title: {
+  todo: {
     required: true,
-    type: String,
+    type: Object,
   },
 });
-
-defineEmits(["remove", "editar"]);
+// define eventos
+defineEmits(["remove", "edit"]);
 
 </script>
 
@@ -39,12 +58,11 @@ defineEmits(["remove", "editar"]);
   border-radius: 10px;
 }
 
-/*primer div del todo*/
 .todo > div {
   display: flex;
 }
 
-.edit-btn {
+.edit-todo-btn {
   margin-right: 5px;
 }
 
@@ -52,6 +70,14 @@ defineEmits(["remove", "editar"]);
   height: 40px;
   width: 40px;
   font-size: 30px;
+}
+
+@media (max-width: 680px) {
+  .todo {
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+  }
 }
 
 </style>

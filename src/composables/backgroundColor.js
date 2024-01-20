@@ -9,22 +9,21 @@ function useBackgroundColor(props) {
             success: "var(--accent-color)",
             secondary: "var(--secondary-color)",
         };
-        return options[props.tipo];
+
+        return options[props.variant];
     });
 }
 
 const backgroundColorProps = {
-    tipo: {
+    variant: {
         required: false,
         default: "success",
         validator(value) {
             const options = ["danger", "warning", "info", "success", "secondary"];
+
             return options.includes(value);
-        }
+        },
     },
 };
 
-export {
-    useBackgroundColor,
-    backgroundColorProps,
-};
+export {useBackgroundColor, backgroundColorProps};

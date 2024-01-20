@@ -11,7 +11,7 @@ export default {
   name: "Pencil",
   props: {
     size: {
-      default: "20px"
+      default: "10px"
     }
   }
 }

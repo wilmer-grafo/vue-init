@@ -1,10 +1,6 @@
-<script setup>
-import NavBar from "./components/NavBar.vue";
-</script>
-
 <template>
 
-  <NavBar/>
+  <Navbar/>
 
   <main class="container">
     <RouterView/>
@@ -12,6 +8,8 @@ import NavBar from "./components/NavBar.vue";
 
 </template>
 
-<style scoped>
+<script setup>
 
-</style>
+import Navbar from "./components/Navbar.vue";
+
+</script>

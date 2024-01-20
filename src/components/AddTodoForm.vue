@@ -17,7 +17,7 @@
 <script setup>
 import { ref } from "vue";
 
-import ButtonVue from "./Button.vue";
+import ButtonVue from "./Btn.vue";
 import Spinner from "./Spinner.vue";
 
 const todoTitle = ref("");

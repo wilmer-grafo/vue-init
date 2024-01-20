@@ -1,118 +1,59 @@
-<script setup>
-import {ref, reactive} from "vue";
-
-import Alert from "../components/Alert.vue";
-import AddTodoForm from "../components/AddTodoForm.vue";
-import Todo from "../components/Todo.vue";
-import Modal from "../components/Modal.vue";
-
-import ButtonVue from "../components/Button.vue";
-import Spinner from "../components/Spinner.vue";
-
-// import api from "../api.js";
-
-import axios from "axios";
-import {useFetch} from "../composables/fetch.js";
-
-// let arr = ref([]);
-// let isLoading = ref(false);
-let isPostingTodo = ref(false);
-let alert = reactive({
-  show: false,
-  message: "",
-  tipo: "danger"
-});
-let editTodoForm = reactive({
-  show: false,
-  todo: {
-    id: 0,
-    title: ""
-  }
-});
-
-// data: arr renombrar de data por arr
-const {data: arr, isLoading} = useFetch("/api/todos", {
-  onError: (() => showAlert("Ha habido un error al cargar los todos"))
-});
-
-// watch(error, (e) => showAlert("Ha habido un error al cargar los todos"));
-
-const showAlert = (message, type = "danger") => {
-  alert.show = true;
-  alert.message = message;
-  alert.tipo = type;
-};
-
-const addTodo = async (title) => {
-  if (title === "") {
-    showAlert("El titulo es necesario");
-    return;
-  }
-
-  isPostingTodo.value = true;
-
-  const res = await axios.post('http://localhost:8090/todos', {
-    title
-  });
-
-  isPostingTodo.value = false;
-
-  arr.value.push(res.data);
-};
-
-const removeTodo = async (id) => {
-  await axios.delete(`http://localhost:8090/todos/${id}`);
-  arr.value = arr.value.filter(p_todo => p_todo.id !== id);
-};
-
-
-
-const fetchAllTodosAxios = async () => {
-  isLoading.value = true;
-  try {
-    const res = await axios.get('/api/todos');
-    arr.value = res.data;
-  } catch (e) {
-    if (e.response.status === 500)
-      showAlert("No se pudo obtener el listado :(");
-    showAlert("Revisa la conexion");
-  }
-  isLoading.value = false;
-};
-
-// fetchAllTodosAxios();
-
-</script>
-
 <template>
 
-  <Alert :show="alert.show"
-         v-bind:message="alert.message"
-         :tipo="alert.tipo"
-         @cerrar="alert.show = false"
-  />
+  <Alert v-bind="alert" @close="alert.show = false"/>
 
   <section>
-    <AddTodoForm :isLoading="isPostingTodo" @adicionar="addTodo"/>
-  </section>
 
-  <section>
-    <Spinner v-if="isLoading" class="cargando"/>
+    <Spinner class="spinner" v-if="isLoading"/>
+
     <div v-else>
+
       <Todo
-          v-for="todo in arr"
-          :key="todo.id"
-          :title="todo.title"
-          @remove="removeTodo(todo.id)"
-          @editar="$router.push(`/todos/${todo.id}/edit`)"
+          v-for="v_todo in todos"
+          :key="v_todo.id"
+          :todo="v_todo"
+          @remove="removeTodo(v_todo.id)"
+          @edit="$router.push(`/todos/${v_todo.id}/edit`)"
       />
+
     </div>
+
   </section>
 
 </template>
 
+<script setup>
+
+import axios from "axios";
+
+// importacion de componentes
+import Alert from "@/components/Alert.vue";
+import Todo from "@/components/Todo.vue";
+import Spinner from "@/components/Spinner.vue";
+
+import {ref} from "vue";
+import {useFetch} from "../composables/fetch";
+import {useAlert} from "../composables/alert.js";
+
+// extrae la el objeto reactivo y la funcion
+const {alert, showAlert} = useAlert();
+
+const {data: todos, isLoading} = useFetch("/api/todos", {
+  onError: () => showAlert("La carga de registros ha fallado"),
+});
+
+async function removeTodo(id) {
+  await axios.delete(`/api/todos/${id}`);
+  todos.value = todos.value.filter((todo) => todo.id !== id);
+}
+
+</script>
+
 <style scoped>
-.cargando {
+.spinner {
   margin: 30px auto auto;
+  /*puede ser simplificado*/
+  /*margin: auto;*/
+  /*margin-top: 30px;*/
 }
 </style>

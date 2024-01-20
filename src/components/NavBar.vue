@@ -1,36 +1,35 @@
 <template>
-  <nav class="nav-bar">
+  <nav class="navbar">
     <div class="logo">
       <img src="@/assets/logo.svg" width="50"/>
-      <div class="brand">Cosas por hacer</div>
+      <div class="brand">Ejemplo básico</div>
     </div>
 
     <div class="links">
       <ul>
         <li>
-          <RouterLink class="route-link" to="/">Home</RouterLink>
+          <RouterLink to="/">Inicio</RouterLink>
         </li>
-<!--        <li>-->
-<!--          <RouterLink class="route-link" to="/todos/create">Add Todo</RouterLink>-->
-<!--        </li>-->
         <li>
-          <RouterLink class="route-link" to="/about">About</RouterLink>
+          <RouterLink to="/todos/create">Agregar</RouterLink>
+        </li>
+        <li>
+          <RouterLink to="/about">Acerca</RouterLink>
         </li>
       </ul>
     </div>
-
   </nav>
 </template>
 
 <style scoped>
 
-.nav-bar {
+.navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: var(--navbar-color);
   padding: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
 }
 
 .brand {
@@ -50,12 +49,11 @@
   margin: 0;
 }
 
-.route-link {
+.links a {
   font-size: 20px;
   margin-left: 10px;
   text-decoration: none;
   color: var(--text-color);
-  /*pointer-events: none;*/ /*DISABLE LINKS*/
 }
 
 a.router-link-active {
@@ -63,6 +61,7 @@ a.router-link-active {
 }
 
 @media (max-width: 680px) {
+
   .navbar {
     display: block;
   }
@@ -76,9 +75,10 @@ a.router-link-active {
     padding: 0;
   }
 
-  .route-link {
+  .links a {
     font-size: 10px;
   }
+
 }
 
 </style>
