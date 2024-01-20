@@ -1,15 +1,13 @@
 <script setup>
-import {ref, reactive, watch} from "vue";
+import {ref, reactive} from "vue";
 
 import Alert from "../components/Alert.vue";
 import AddTodoForm from "../components/AddTodoForm.vue";
 import Todo from "../components/Todo.vue";
 import Modal from "../components/Modal.vue";
 
-import ButtonVue from "../components/ButtonVue.vue";
+import ButtonVue from "../components/Button.vue";
 import Spinner from "../components/Spinner.vue";
-
-import EditTodoForm from "../components/EditTodoForm.vue";
 
 // import api from "../api.js";
 
@@ -67,22 +65,7 @@ const removeTodo = async (id) => {
   arr.value = arr.value.filter(p_todo => p_todo.id !== id);
 };
 
-const showEditTodoForm = (todo) => {
-  editTodoForm.show = true;
-  editTodoForm.todo = {...todo}; // copiar
-};
 
-const updateTodo = async () => {
-  try {
-    const {id, title} = editTodoForm.todo;
-    await axios.put(`/api/todos/${id}`, {title});
-    const todo = arr.value.find(p_todo => p_todo.id === editTodoForm.todo.id);
-    todo.title = editTodoForm.todo.title;
-  } catch (e) {
-    showAlert("Fallo la actualizacion disculpe las molestias");
-  }
-  editTodoForm.show = false;
-};
 
 const fetchAllTodosAxios = async () => {
   isLoading.value = true;
@@ -102,34 +85,30 @@ const fetchAllTodosAxios = async () => {
 </script>
 
 <template>
-  <main class="container">
-    <EditTodoForm
-        :show="editTodoForm.show"
-        @close="editTodoForm.show = false"
-        @submit="updateTodo"
-        v-model="editTodoForm.todo.title"
-    />
-    <Alert :show="alert.show"
-           v-bind:message="alert.message"
-           :tipo="alert.tipo"
-           @cerrar="alert.show = false"
-    />
-    <section>
-      <AddTodoForm :isDisabled="isPostingTodo" @adicionar="addTodo"/>
-    </section>
-    <section>
-      <Spinner v-if="isLoading" class="cargando"/>
-      <div v-else>
-        <Todo
-            v-for="todo in arr"
-            :key="todo.id"
-            :title="todo.title"
-            @remove="removeTodo(todo.id)"
-            @editar="showEditTodoForm(todo)"
-        />
-      </div>
-    </section>
-  </main>
+
+  <Alert :show="alert.show"
+         v-bind:message="alert.message"
+         :tipo="alert.tipo"
+         @cerrar="alert.show = false"
+  />
+
+  <section>
+    <AddTodoForm :isLoading="isPostingTodo" @adicionar="addTodo"/>
+  </section>
+
+  <section>
+    <Spinner v-if="isLoading" class="cargando"/>
+    <div v-else>
+      <Todo
+          v-for="todo in arr"
+          :key="todo.id"
+          :title="todo.title"
+          @remove="removeTodo(todo.id)"
+          @editar="$router.push(`/todos/${todo.id}/edit`)"
+      />
+    </div>
+  </section>
+
 </template>
 
 <style scoped>

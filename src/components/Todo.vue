@@ -13,7 +13,7 @@
 
 <script setup>
 
-import ButtonVue from "./ButtonVue.vue";
+import ButtonVue from "./Button.vue";
 import Pencil from "./icons/Pencil.vue";
 
 defineProps({
